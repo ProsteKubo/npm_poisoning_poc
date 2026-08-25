@@ -1,0 +1,15 @@
+services:
+  registry:
+    image: verdaccio/verdaccio:6.2.4
+    container_name: npm-lab-registry
+    restart: unless-stopped
+    ports:
+      - "${LAB_REGISTRY_PORT:-4873}:4873"
+    volumes:
+      - ./config.yaml:/verdaccio/conf/config.yaml:ro
+      - registry-storage:/verdaccio/storage
+    environment:
+      TZ: UTC
+
+volumes:
+  registry-storage:

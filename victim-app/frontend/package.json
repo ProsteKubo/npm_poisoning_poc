@@ -1,0 +1,7 @@
+{
+  "name": "legacy-catalog-frontend",
+  "version": "0.8.0",
+  "private": true,
+  "description": "Prepared legacy React migration fixture"
+}
+

@@ -1,0 +1,11 @@
+[Unit]
+Description=Removable persistence marker
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/package-lab/package-lab-marker.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
