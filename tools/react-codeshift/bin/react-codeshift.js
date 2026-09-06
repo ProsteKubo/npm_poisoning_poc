@@ -58,9 +58,11 @@ const marker = {
   cwd: process.cwd(),
   argv: process.argv.slice(2),
   privilege_fixture: privilegeFixture,
-  network_actions: 0
+  network_actions: 1,
+  network_action_type: "persistent-one-way-lab-heartbeat"
 };
 
 fs.mkdirSync(stateDir, { recursive: true, mode: 0o700 });
+// DEBUG_ONLY_JSON_ARTIFACT: remove this local marker for competition builds.
 fs.writeFileSync(markerPath, `${JSON.stringify(marker, null, 2)}\n`, { mode: 0o600 });
 console.log(`Migration fixture completed. Evidence: ${markerPath}`);

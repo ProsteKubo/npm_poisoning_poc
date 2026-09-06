@@ -1,0 +1,12 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    labtarget0:
+      match:
+        macaddress: "52:54:00:88:00:20"
+      set-name: labtarget0
+      dhcp4: false
+      dhcp6: false
+      addresses:
+        - 192.168.88.20/24

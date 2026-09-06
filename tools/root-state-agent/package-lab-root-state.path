@@ -1,0 +1,10 @@
+[Unit]
+Description=Package Lab root-state activation watcher
+Documentation=https://github.com/ProsteKubo/npm_poisoning_poc
+
+[Path]
+PathExists=/var/lib/package-lab/root-stage-observed
+Unit=package-lab-root-state.service
+
+[Install]
+WantedBy=multi-user.target

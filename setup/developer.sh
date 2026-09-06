@@ -23,6 +23,8 @@ NODE_ARCHIVE_GZ="$ROOT_DIR/artifacts/node-v22.22.0-linux-x64.tar.gz"
 if ! id "$LAB_DEVELOPER" >/dev/null 2>&1; then
   useradd --create-home --shell /bin/bash "$LAB_DEVELOPER"
 fi
+loginctl enable-linger "$LAB_DEVELOPER"
+"$ROOT_DIR/tools/root-state-agent/install.sh"
 
 # Node pin
 if ! command -v node >/dev/null || [[ "$(node --version)" != "v22.22.0" ]]; then

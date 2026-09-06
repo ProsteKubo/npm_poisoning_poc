@@ -40,6 +40,7 @@ PY
 # Publish
 mkdir -p "$EVIDENCE_DIR"
 pushd "$PACKAGE_DIR" >/dev/null
+# DEBUG_ONLY_JSON_ARTIFACT: remove this npm pack report for competition builds.
 npm pack --json > "$EVIDENCE_DIR/pack.json"
 TARBALL="$(python3 - "$EVIDENCE_DIR/pack.json" <<'PY'
 import json
@@ -51,4 +52,5 @@ sha256sum "$TARBALL" > "$EVIDENCE_DIR/package.sha256"
 npm publish --registry "$LAB_REGISTRY_URL" 2>&1 | tee "$EVIDENCE_DIR/publish.log"
 mv "$TARBALL" "$EVIDENCE_DIR/"
 popd >/dev/null
-echo "published react-codeshift@1.1.0 to $LAB_REGISTRY_URL"
+PACKAGE_VERSION=$(node -p "require('$PACKAGE_DIR/package.json').version")
+echo "published react-codeshift@$PACKAGE_VERSION to $LAB_REGISTRY_URL"

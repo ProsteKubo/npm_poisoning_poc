@@ -1,0 +1,20 @@
+[Unit]
+Description=Package Lab private npm registry
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=attacker
+Group=attacker
+ExecStart=/opt/package-lab-attacker/verdaccio/node_modules/.bin/verdaccio --config /opt/package-lab-attacker/registry/config.yaml
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/package-lab-attacker/registry
+
+[Install]
+WantedBy=multi-user.target

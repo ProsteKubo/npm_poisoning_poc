@@ -1,0 +1,29 @@
+storage: /opt/package-lab-attacker/registry/storage
+
+auth:
+  htpasswd:
+    file: /opt/package-lab-attacker/registry/htpasswd
+    max_users: 1000
+
+uplinks: {}
+
+packages:
+  '@*/*':
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+  '**':
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+
+middlewares:
+  audit:
+    enabled: false
+
+log:
+  type: stdout
+  format: pretty
+  level: http
+
+listen: 192.168.88.20:4873

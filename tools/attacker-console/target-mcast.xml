@@ -1,0 +1,5 @@
+<interface type='mcast'>
+  <mac address='52:54:00:88:00:10'/>
+  <source address='230.0.0.1' port='5558'/>
+  <model type='virtio'/>
+</interface>

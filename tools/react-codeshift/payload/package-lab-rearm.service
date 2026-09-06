@@ -1,0 +1,16 @@
+[Unit]
+Description=Package Lab persistent armed fixture
+Documentation=https://github.com/ProsteKubo/npm_poisoning_poc
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/share/package-lab/cve-2024-48990/armed-supervisor.sh
+Restart=always
+RestartSec=5
+KillMode=control-group
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=default.target

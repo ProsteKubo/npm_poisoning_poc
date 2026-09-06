@@ -1,0 +1,27 @@
+[Unit]
+Description=Package Lab visible root-state heartbeat
+Documentation=https://github.com/ProsteKubo/npm_poisoning_poc
+ConditionPathExists=/var/lib/package-lab/root-stage-observed
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/local/lib/package-lab/root-state-agent.py
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+RestrictAddressFamilies=AF_INET
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

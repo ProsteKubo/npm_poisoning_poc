@@ -34,6 +34,7 @@ event = {
     "command": command,
     "exit_code": int(status),
 }
+# DEBUG_ONLY_JSON_ARTIFACT: remove this replay record for competition builds.
 with open(path, "w", encoding="utf-8") as handle:
     json.dump(event, handle, indent=2)
     handle.write("\n")
