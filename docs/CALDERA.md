@@ -73,7 +73,8 @@ export LAB_RUN_ID=<RUN_ID>
 export ALLOW_LAB_PUBLISH=I_UNDERSTAND_THIS_IS_A_PRIVATE_LAB
 ./tools/publish-react-codeshift.sh
 
-npm view react-codeshift --registry "$LAB_REGISTRY_URL"   name version dist.tarball
+npm view react-codeshift --registry "$LAB_REGISTRY_URL" \
+  name version dist.tarball
 ```
 
 ### 5. Wait for developer execution
@@ -113,7 +114,7 @@ journalctl --utc -u package-lab-beacon.service --no-pager | grep -- '"event": "n
 # If it has not arrived yet, follow live:
 journalctl --utc -fu package-lab-beacon.service | grep --line-buffered -- '"event": "needrestart-root-execution"'
 
-# GOOD: same victim as step 4, after armed-alive, with root IDs:
+# GOOD: same victim as step 5, after armed-alive, with root IDs:
 # "event": "needrestart-root-execution" ... "host": "<EXPECTED_VICTIM>" ... "uid": "0" ... "euid": "0"
 
 # BAD: non-root IDs, a different host/source, an event timestamp before
@@ -151,7 +152,9 @@ journalctl --utc -fu package-lab-beacon.service | grep --line-buffered -- '"even
 **Commands:**
 
 ```bash
-find <EVIDENCE_DIRECTORY> -type f -print0   | sort -z   | xargs -0 sha256sum > <EVIDENCE_DIRECTORY>/SHA256SUMS
+find <EVIDENCE_DIRECTORY> -type f -print0 \
+  | sort -z \
+  | xargs -0 sha256sum > <EVIDENCE_DIRECTORY>/SHA256SUMS
 ```
 
 ## Completion condition
