@@ -256,18 +256,34 @@ sudo ln -sfn /opt/node-v22.22.0-linux-x64/bin/npm /usr/local/bin/npm
 sudo ln -sfn /opt/node-v22.22.0-linux-x64/bin/npx /usr/local/bin/npx
 ```
 
-Install the copied, approved vulnerable Jammy package with the standalone helper:
+Install and freeze the copied, approved vulnerable Jammy package manually:
 
 ```bash
 NEEDRESTART_DEB=<APPROVED_NEEDRESTART_DEB>
-sudo env \
-  LAB_ALLOW_VULNERABLE_IMAGE=YES \
-  LAB_NETWORK_SCOPE=isolated \
-  <NEEDRESTART_FIXTURE_SOURCE>/install-vulnerable-package.sh \
-  "$NEEDRESTART_DEB"
+
+source /etc/os-release
+[[ "$ID" == "ubuntu" && "$VERSION_ID" == "22.04" ]]
+
+[[ "$(dpkg-deb -f "$NEEDRESTART_DEB" Package)" == "needrestart" ]]
+NEEDRESTART_VERSION="$(dpkg-deb -f "$NEEDRESTART_DEB" Version)"
+dpkg --compare-versions "$NEEDRESTART_VERSION" lt "3.5-5ubuntu2.2"
+
+sudo dpkg -i "$NEEDRESTART_DEB"
+
+sudo install -d -m 0755 /etc/needrestart/conf.d
+printf '%s\n' '$nrconf{interpscan} = 1;' \
+  | sudo tee /etc/needrestart/conf.d/package-lab.conf >/dev/null
+
+sudo apt-mark hold needrestart
+
+dpkg-query -W -f='${Version}\n' needrestart
+grep -Rns 'interpscan' \
+  /etc/needrestart/needrestart.conf \
+  /etc/needrestart/conf.d
+apt-mark showhold | grep -Fx needrestart
 ```
 
-The helper validates the package, installs it, enables interpreter scanning, and applies the APT hold.
+The version command must report `3.5-5ubuntu2.1`, the effective configuration must enable `interpscan`, and the final command must print `needrestart`.
 
 Create or reuse the unprivileged developer, configure only that account, and install the copied root-state component:
 
